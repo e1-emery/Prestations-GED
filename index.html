@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solutions Stratégiques de Gestion de l'Information</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- RESET ET STYLES GLOBAUX --- */
+        :root {
+            --primary-color: #0A2342; /* Bleu marine profond */
+            --secondary-color: #FFFFFF;
+            --accent-color: #F4A261; /* Orange industriel */
+            --text-color: #333333;
+            --light-gray: #f8f9fa;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--secondary-color);
+        }
+
+        /* --- STRUCTURE ET MISE EN PAGE --- */
+       .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 3rem; }
+        h2 { font-size: 2.5rem; text-align: center; margin-bottom: 60px; }
+        h3 { font-size: 1.5rem; margin-bottom: 15px; }
+        p { margin-bottom: 20px; }
+
+       .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--accent-color);
+            color: var(--secondary-color);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+       .btn:hover {
+            background-color: #e8924e;
+            transform: translateY(-2px);
+        }
+
+        /* --- HEADER --- */
+       .main-header {
+            background: var(--secondary-color);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+       .main-header.container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+       .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        /* --- SECTION HERO --- */
+       .hero {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px; /* Pour compenser le header fixe */
+        }
+
+       .hero-content h1 {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+       .hero-content p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+            font-weight: 300;
+        }
+
+        /* --- SECTION DÉFI --- */
+        #challenge {
+            background-color: var(--light-gray);
+        }
+
+       .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+       .stat-item {
+            background: var(--secondary-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+       .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+       .stat-description {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        /* --- SECTION SERVICES --- */
+       .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+       .service-card {
+            text-align: center;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+       .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+       .service-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 20px;
+        }
+
+       .service-card h3 {
+            margin-bottom: 15px;
+        }
+
+       .service-card p {
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+       .service-card.learn-more {
+            font-weight: 600;
+            color: var(--primary-color);
+            text-decoration: none;
+            cursor: pointer;
+        }
+       .service-card.learn-more:hover {
+            text-decoration: underline;
+        }
+
+        /* --- SECTION AVANTAGE IA --- */
+        #ai-advantage {
+            background-color: var(--light-gray);
+        }
+       .ai-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+       .ai-text,.ai-visual {
+            flex: 1;
+        }
+       .ai-visual {
+            background-color: #e9ecef;
+            padding: 30px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+        }
+       .ai-query { color: #007bff; }
+       .ai-response { color: #28a745; }
+
+        /* --- SECTION CRÉDIBILITÉ --- */
+       .credibility-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+       .logo-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+       .logo-item svg {
+            width: 50px;
+            height: 50px;
+            fill: #888;
+        }
+
+       .logo-item span {
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 600;
+        }
+
+        /* --- SECTION CTA --- */
+        #cta {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            text-align: center;
+        }
+
+        #cta h2 {
+            color: var(--secondary-color);
+        }
+
+        #cta p {
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+        }
+
+        /* --- MODAL (POP-UP) --- */
+       .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            align-items: center;
+            justify-content: center;
+        }
+
+       .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 40px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 10px;
+            position: relative;
+            animation: slideIn 0.5s;
+        }
+
+        @keyframes slideIn {
+            from {transform: translateY(-50px); opacity: 0;}
+            to {transform: translateY(0); opacity: 1;}
+        }
+
+       .close-btn {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+       .close-btn:hover,
+       .close-btn:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+       .modal-content h3 {
+            margin-top: 0;
+        }
+
+       .modal-content ul {
+            list-style-position: inside;
+            padding-left: 0;
+        }
+
+       .modal-content li {
+            margin-bottom: 10px;
+        }
+        
+       .modal-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+       .modal-content th,.modal-content td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+       .modal-content th {
+            background-color: var(--light-gray);
+            color: var(--primary-color);
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.8rem; }
+           .hero { height: auto; padding: 150px 0 100px 0; }
+           .ai-content { flex-direction: column; }
+           .modal-content { width: 95%; padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="#" class="logo"> STUDIO INDIGO   </a>
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+            <a href="#cta" class="btn">Demander une démo</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero visible">
+            <div class="hero-content">
+                <h1>Transformez votre Fardeau Documentaire en Avantage Stratégique</h1>
+                <p>Solutions d'archivage numérique, d'intelligence assistée par IA et de gestion de connaissance pour les leaders de l'industrie pétrolière et des services experts à Pointe-Noire.</p>
+                <a href="#services" class="btn">Découvrir nos solutions</a>
+            </div>
+        </section>
+
+        <section id="challenge">
+            <div class="container">
+                <h2>Le Coût Élevé du Chaos Informationnel</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">~8h</div>
+                        <div class="stat-description">Perdues chaque semaine par employé à la recherche d'informations.</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">>5%</div>
+                        <div class="stat-description">Du chiffre d'affaires potentiellement perdu à cause de la non-qualité documentaire.</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-description">De risque de non-conformité réglementaire sans une gestion rigoureuse.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services">
+            <div class="container">
+                <h2>Les Trois Piliers du Contrôle</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 12L10 15L17 8M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C14.2 3 16.2236 3.85999 17.7929 5.20712" stroke="#0A2342" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <h3>1. Archivage Numérique et Conformité</h3>
+                        <p>Sécurisez vos documents critiques, garantissez leur valeur probante et automatisez votre conformité réglementaire, y compris la Piste d'Audit Fiable.</p>
+                        <span class="learn-more" data-modal="modal1">En savoir plus &rarr;</span>
+                    </div>
+                    <div class="service-card">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 11C13.1046 11 14 10.1046 14 9C14 7.89543 13.1046 7 12 7C10.8954 7 10 7.89543 10 9C10 10.1046 10.8954 11 12 11ZM12 21C16 17 20 15.4183 20 12C20 8.58172 16.4183 5 12 5C7.58172 5 4 8.58172 4 12C4 15.4183 8 17 12 21Z" stroke="#0A2342" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <h3>2. Assistance par Intelligence Artificielle</h3>
+                        <p>Transformez vos archives statiques en une source d'intelligence active. Obtenez des réponses précises à des questions complexes en langage naturel.</p>
+                        <span class="learn-more" data-modal="modal2">En savoir plus &rarr;</span>
+                    </div>
+                    <div class="service-card">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 20.41L18.41 19L15 15.59L13.59 17L17 20.41ZM7.5 8H11.5M7.5 12H11.5M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#0A2342" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <h3>3. Base de Connaissance Stratégique</h3>
+                        <p>Centralisez le savoir de votre entreprise. Brisez les silos d'information, accélérez l'intégration et préservez l'expertise de vos collaborateurs.</p>
+                        <span class="learn-more" data-modal="modal3">En savoir plus &rarr;</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ai-advantage">
+            <div class="container">
+                <h2>Des Archives Statiques à l'Intelligence Active</h2>
+                <div class="ai-content">
+                    <div class="ai-text">
+                        <h3>Notre IA ne cherche pas, elle comprend.</h3>
+                        <p>Oubliez la recherche par mots-clés. Notre IA est entraînée sur vos documents techniques pour comprendre le contexte de votre métier. Posez des questions complexes et obtenez des synthèses précises, avec les sources citées.</p>
+                        <p>Accélérez l'analyse d'incidents, facilitez la maintenance et capturez l'expertise de vos collaborateurs avant qu'elle ne quitte l'entreprise.</p>
+                    </div>
+                    <div class="ai-visual">
+                        <p><span class="ai-query">> Requête :</span> "Quels sont les incidents de maintenance liés à la corrosion sur la pompe X en 2023?"</p>
+                        <br>
+                        <p><span class="ai-response">> Réponse :</span> "Une synthèse de 3 rapports indique une corrosion galvanique due à un contact avec un joint en laiton (Rapport INC-2023-045). La procédure de maintenance P-113B a été mise à jour le 12/08/2023 pour y remédier (voir Plan MNT-2023-12)."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="credibility">
+            <div class="container">
+                <h2>Conçu pour les Exigences les plus Strictes</h2>
+                <div class="credibility-logos">
+                    <div class="logo-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.236L18.36 7 12 10.236 5.64 7 12 4.236zM4 8.528V16l8 4V12.528L4 8.528zm16 0L12 12.528V20l8-4V8.528z"/></svg>
+                        <span>ISO 29001</span>
+                    </div>
+                    <div class="logo-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                        <span>ISO 15489</span>
+                    </div>
+                    <div class="logo-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 11.23V14h6v-2.77c.59-.34 1-.98 1-1.73 0-1.1-.9-2-2-2s-2.9-2 2c0.75.41 1.39 1 1.73zM20 4H4c-1.1 0-2.9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 14c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+                        <span>Loi N° 29-2019</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cta">
+            <div class="container">
+                <h2>Prêt à transformer votre gestion de l'information?</h2>
+                <p>Planifions un audit de vos flux documentaires ou une démonstration privée de nos solutions. Découvrez comment nous pouvons vous aider à maîtriser le risque et à accélérer la performance.</p>
+                <a href="mailto:contact@votreentreprise.com" class="btn">Planifier un entretien</a>
+            </div>
+        </section>
+    </main>
+
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>Archivage Numérique Sécurisé & Conformité</h3>
+            <p><strong>Le Problème Résolu :</strong> La gestion des archives physiques est coûteuse, risquée et inefficace. La conformité réglementaire (HSE, fiscale) et la préservation de la valeur juridique des documents sont des défis constants.</p>
+            <h4>Notre Solution (Le Flux de Travail) :</h4>
+            <ol>
+                <li><strong>Audit & Prise en Charge :</strong> Audit des archives existantes et mise en place d'un plan de numérisation sur mesure.</li>
+                <li><strong>Numérisation Conforme :</strong> Numérisation haute-fidélité avec contrôles qualité pour garantir l'intégrité.</li>
+                <li><strong>Archivage à Valeur Probante :</strong> Stockage dans un Système d'Archivage Électronique (SAE) sécurisé, conforme à la norme ISO 15489.</li>
+                <li><strong>Gestion du Cycle de Vie :</strong> Application automatisée des politiques de rétention et de destruction sécurisée.</li>
+            </ol>
+            <h4>Fonctionnalités & Bénéfices Clés :</h4>
+            <ul>
+                <li><strong>Conformité Piste d'Audit Fiable (PAF) :</strong> Processus et documentation auditables pour répondre aux exigences fiscales.</li>
+                <li><strong>Chaîne de Garde (Chain of Custody) :</strong> Traçabilité complète de chaque accès et action sur un document.</li>
+                <li><strong>Sécurité Renforcée :</strong> Cryptage AES-256, contrôles d'accès granulaires et redondance des données.</li>
+                <li><strong>Réduction des Coûts :</strong> Éliminez les coûts de stockage physique, d'impression et de transport.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>Assistance par Intelligence Artificielle</h3>
+            <p><strong>Le Problème Résolu :</strong> Vos archives techniques contiennent des décennies de connaissances inexploitées. Trouver une information précise dans des milliers de rapports est une tâche lente et souvent impossible.</p>
+            <h4>Notre Solution (La Technologie) :</h4>
+            <ol>
+                <li><strong>Affinage du Modèle (Fine-Tuning) :</strong> Nous entraînons un Grand Modèle de Langage (LLM) spécifiquement sur VOS documents techniques pour qu'il maîtrise votre terminologie et votre contexte métier.</li>
+                <li><strong>Recherche Sémantique Intelligente :</strong> Notre IA comprend l'intention derrière votre question. Elle interprète le sens pour fournir des réponses précises et synthétisées, en citant ses sources.</li>
+            </ol>
+            <h4>Cas d'Usage Stratégiques :</h4>
+            <ul>
+                <li><strong>Analyse d'Incidents Accélérée :</strong> "Synthétiser les rapports d'incidents liés à des fuites de gaz sur le site Y depuis 5 ans".</li>
+                <li><strong>Support à l'Ingénierie et à la Maintenance :</strong> Retrouvez instantanément la bonne procédure ou le plan "tel que construit" pour un équipement spécifique.</li>
+                <li><strong>Préservation du Savoir-Faire :</strong> Capturez l'expertise de vos ingénieurs seniors et rendez-la interrogeable pour les nouvelles générations.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="modal3" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>Gestion de Base de Connaissance Stratégique</h3>
+            <p><strong>Le Problème Résolu :</strong> Le savoir de votre entreprise est fragmenté dans des emails, des disques partagés et dans la tête de vos collaborateurs. Ce silotage freine la collaboration et crée des risques de perte de connaissance critique.</p>
+            <h4>Notre Solution (La Plateforme) :</h4>
+            <p>Nous mettons en place une plateforme de gestion de la connaissance unifiée et sécurisée qui devient la source unique de vérité pour vos processus, procédures et expertises.</p>
+            <h4>Le Retour sur Investissement (ROI) Démontré :</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Domaine de Bénéfice</th>
+                        <th>Métrique</th>
+                        <th>Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Gain de Temps sur la Recherche</td>
+                        <td>Heures/employé/semaine</td>
+                        <td>Réduction drastique du temps non productif.</td>
+                    </tr>
+                    <tr>
+                        <td>Réduction des Coûts d'Intégration</td>
+                        <td>Temps pour atteindre la pleine productivité</td>
+                        <td>Accélération de l'onboarding des nouvelles recrues.</td>
+                    </tr>
+                    <tr>
+                        <td>Réduction des Erreurs</td>
+                        <td>Nombre d'erreurs de conformité</td>
+                        <td>Décisions basées sur des informations fiables et à jour.</td>
+                    </tr>
+                    <tr>
+                        <td>Réduction du Travail en Double</td>
+                        <td>% de projets retravaillés</td>
+                        <td>Meilleure visibilité sur les travaux en cours.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- GESTION DES MODALS (POP-UPS) ---
+            const modals = document.querySelectorAll('.modal');
+            const learnMoreLinks = document.querySelectorAll('.learn-more');
+            const closeBtns = document.querySelectorAll('.close-btn');
+
+            // Ouvrir le modal
+            learnMoreLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    const modalId = this.getAttribute('data-modal');
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.style.display = 'flex';
+                    }
+                });
+            });
+
+            // Fermer le modal avec le bouton X
+            closeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.closest('.modal').style.display = 'none';
+                });
+            });
+
+            // Fermer le modal en cliquant à l'extérieur
+            window.addEventListener('click', function(event) {
+                modals.forEach(modal => {
+                    if (event.target == modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+
+            // --- ANIMATION AU DÉFILEMENT ---
+            const sections = document.querySelectorAll('section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+</body>
+</html>
